@@ -23,7 +23,12 @@ brotliSize.file = (path, options) => {
     brotliStream.on('brotli-size', resolve);
   });
 };
+
+const noneCompressSize = ({length}) => length;
+noneCompressSize.file = async path => (await fs.readFile(path)).length;
+
 const compression = {
+  none: noneCompressSize,
   brotli: brotliSize,
   gzip: gzipSize
 };
